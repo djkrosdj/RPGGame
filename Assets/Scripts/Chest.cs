@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Chest : MonoBehaviour
@@ -12,5 +13,13 @@ public class Chest : MonoBehaviour
     public void Open()
     {
         _animator.SetTrigger("open");
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            Open();
+        }
     }
 }
