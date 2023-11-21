@@ -13,7 +13,7 @@ public class Detector : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player")&&_potion.hasPlayerPickedUpPotion==false)
+        if (other.gameObject.CompareTag("Player")&&_potion.HasPotion()==false)
         {
             PlayerDetected?.Invoke();
            // Debug.Log("Игрок вошел в зону триггера");
@@ -22,11 +22,11 @@ public class Detector : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player")&&_potion.HasPotion()==true)
         {
             PlayerLost?.Invoke();
             // Debug.Log("Игрок вышел в зону триггера");
         }
     }
-    
+    // Todo: сделать второй тригер и повесить включение огня туда. а этот оставить на разрушение моста.
 }

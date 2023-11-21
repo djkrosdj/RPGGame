@@ -8,11 +8,7 @@ public class Bridge : MonoBehaviour
     private Rigidbody[] _rigidbodies;
     private NavMeshObstacle _navMeshObstacle;
 
-    [SerializeField]private Detector _detector;
-
-    private bool _isTheBridgeBroken;
-    private bool _potionPickedUp;
-
+    [SerializeField] private Detector _detector;
     [SerializeField] private GameObject _fire;
 
     private float _minForceValue = 150;
@@ -22,34 +18,25 @@ public class Bridge : MonoBehaviour
     {
         _navMeshObstacle = GetComponent<NavMeshObstacle>();
         _rigidbodies = GetComponentsInChildren<Rigidbody>();
-
     }
 
     private void Start()
     {
         if (_detector != null)
         {
-            if (!_potionPickedUp)
-            {
-                _detector.PlayerDetected += Break;
-                _isTheBridgeBroken = true;
-            }
-        }
-
-        if (_isTheBridgeBroken)
-        {
-            _detector.PlayerLost += LightIsOn;
+            _detector.PlayerDetected += Break;
+            _detector.PlayerLost += TurnOnLight;
         }
     }
 
     private void OnDisable()
     {
         _detector.PlayerDetected -= Break;
-        _detector.PlayerLost -= LightIsOn;
+        _detector.PlayerLost -= TurnOnLight;
     }
 
 
-    public void Break()
+    private void Break()
     {
         // Вырезаем отверстие в навмеш (чтобы игрок там больше не смог пройти)
         _navMeshObstacle.enabled = true;
@@ -69,7 +56,7 @@ public class Bridge : MonoBehaviour
         }
     }
 
-    private void LightIsOn()
+    private void TurnOnLight()
     {
         _fire.SetActive(true);
     }
