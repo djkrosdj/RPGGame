@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class Bridge : MonoBehaviour
@@ -8,7 +9,8 @@ public class Bridge : MonoBehaviour
     private Rigidbody[] _rigidbodies;
     private NavMeshObstacle _navMeshObstacle;
 
-    [SerializeField] private Detector _detector;
+    [SerializeField] private DetectorBridge _detectorBridge;
+    [SerializeField] private DetectorFire _detectorFire;
     [SerializeField] private GameObject _fire;
 
     private float _minForceValue = 150;
@@ -22,17 +24,21 @@ public class Bridge : MonoBehaviour
 
     private void Start()
     {
-        if (_detector != null)
+        if (_detectorBridge != null)
         {
-            _detector.PlayerDetected += Break;
-            _detector.PlayerLost += TurnOnLight;
+            _detectorBridge.PlayerDetected += Break;
+        }
+
+        if (_detectorFire != null)
+        {
+            _detectorFire.PlayerLost += TurnOnLight;
         }
     }
 
     private void OnDisable()
     {
-        _detector.PlayerDetected -= Break;
-        _detector.PlayerLost -= TurnOnLight;
+        _detectorBridge.PlayerDetected -= Break;
+        _detectorFire.PlayerLost += TurnOnLight;
     }
 
 
