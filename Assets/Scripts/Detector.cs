@@ -8,10 +8,12 @@ public class Detector : MonoBehaviour
     
     public event Action PlayerDetected;
     public event Action PlayerLost;
+
+    [SerializeField] private Potion _potion;
     
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player")&&_potion.hasPlayerPickedUpPotion==false)
         {
             PlayerDetected?.Invoke();
            // Debug.Log("Игрок вошел в зону триггера");
@@ -26,4 +28,5 @@ public class Detector : MonoBehaviour
             // Debug.Log("Игрок вышел в зону триггера");
         }
     }
+    
 }
